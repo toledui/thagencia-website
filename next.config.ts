@@ -14,7 +14,7 @@ const securityHeaders = [
       "connect-src 'self' https://*.google-analytics.com https://*.googletagmanager.com https://analytics.google.com https://stats.g.doubleclick.net https://*.g.doubleclick.net https://recaptchaenterprise.googleapis.com",
       "img-src 'self' data: blob: https://www.google-analytics.com https://www.googletagmanager.com https://analytics.google.com https://stats.g.doubleclick.net https://*.g.doubleclick.net https://www.gstatic.com https:",
       "font-src 'self' data: https://fonts.gstatic.com",
-      "frame-src 'self' https://www.googletagmanager.com",
+      "frame-src 'self' https://www.googletagmanager.com https://www.google.com",
       "worker-src 'self' blob:",
     ].join("; "),
   },
