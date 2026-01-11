@@ -4,6 +4,7 @@ import parse, {
   HTMLReactParserOptions,
   Element,
   Text,
+  DOMNode,
   domToReact,
 } from "html-react-parser";
 import Image from "next/image";
@@ -37,7 +38,7 @@ const options: HTMLReactParserOptions = {
       if (name === "p") {
         return (
           <p className="text-neutral-700 dark:text-neutral-300 leading-relaxed mb-4">
-            {domToReact(children, options)}
+            {domToReact(children as DOMNode[], options)}
           </p>
         );
       }
@@ -46,7 +47,7 @@ const options: HTMLReactParserOptions = {
       if (name === "h2") {
         return (
           <h2 className="text-2xl md:text-3xl font-bold text-neutral-900 dark:text-white mt-8 mb-4">
-            {domToReact(children, options)}
+            {domToReact(children as DOMNode[], options)}
           </h2>
         );
       }
@@ -54,7 +55,7 @@ const options: HTMLReactParserOptions = {
       if (name === "h3") {
         return (
           <h3 className="text-xl md:text-2xl font-bold text-neutral-900 dark:text-white mt-6 mb-3">
-            {domToReact(children, options)}
+            {domToReact(children as DOMNode[], options)}
           </h3>
         );
       }
@@ -62,7 +63,7 @@ const options: HTMLReactParserOptions = {
       if (name === "h4") {
         return (
           <h4 className="text-lg font-bold text-neutral-900 dark:text-white mt-5 mb-2">
-            {domToReact(children, options)}
+            {domToReact(children as DOMNode[], options)}
           </h4>
         );
       }
@@ -71,7 +72,7 @@ const options: HTMLReactParserOptions = {
       if (name === "ul") {
         return (
           <ul className="list-disc list-inside mb-4 space-y-2 text-neutral-700 dark:text-neutral-300">
-            {domToReact(children, options)}
+            {domToReact(children as DOMNode[], options)}
           </ul>
         );
       }
@@ -80,7 +81,7 @@ const options: HTMLReactParserOptions = {
       if (name === "ol") {
         return (
           <ol className="list-decimal list-inside mb-4 space-y-2 text-neutral-700 dark:text-neutral-300">
-            {domToReact(children, options)}
+            {domToReact(children as DOMNode[], options)}
           </ol>
         );
       }
@@ -89,7 +90,7 @@ const options: HTMLReactParserOptions = {
       if (name === "li") {
         return (
           <li className="text-neutral-700 dark:text-neutral-300">
-            {domToReact(children, options)}
+            {domToReact(children as DOMNode[], options)}
           </li>
         );
       }
@@ -98,7 +99,7 @@ const options: HTMLReactParserOptions = {
       if (name === "pre") {
         return (
           <pre className="bg-neutral-900 dark:bg-neutral-950 text-neutral-100 p-4 rounded-lg overflow-x-auto mb-4 border border-neutral-800">
-            {domToReact(children, options)}
+            {domToReact(children as DOMNode[], options)}
           </pre>
         );
       }
@@ -110,13 +111,13 @@ const options: HTMLReactParserOptions = {
         if (parent?.name === "pre") {
           return (
             <code className="text-sm font-mono">
-              {domToReact(children, options)}
+              {domToReact(children as DOMNode[], options)}
             </code>
           );
         }
         return (
           <code className="bg-orange-600/10 text-orange-600 dark:text-orange-400 px-2 py-1 rounded font-mono text-sm">
-            {domToReact(children, options)}
+            {domToReact(children as DOMNode[], options)}
           </code>
         );
       }
@@ -125,7 +126,7 @@ const options: HTMLReactParserOptions = {
       if (name === "blockquote") {
         return (
           <blockquote className="border-l-4 border-orange-600 pl-4 my-4 italic text-neutral-600 dark:text-neutral-400">
-            {domToReact(children, options)}
+            {domToReact(children as DOMNode[], options)}
           </blockquote>
         );
       }
@@ -135,7 +136,7 @@ const options: HTMLReactParserOptions = {
         return (
           <div className="overflow-x-auto mb-6 border border-neutral-200 dark:border-neutral-800 rounded-lg">
             <table className="w-full text-sm">
-              {domToReact(children, options)}
+              {domToReact(children as DOMNode[], options)}
             </table>
           </div>
         );
@@ -144,7 +145,7 @@ const options: HTMLReactParserOptions = {
       if (name === "thead") {
         return (
           <thead className="bg-neutral-100 dark:bg-neutral-900 border-b border-neutral-200 dark:border-neutral-800">
-            {domToReact(children, options)}
+            {domToReact(children as DOMNode[], options)}
           </thead>
         );
       }
@@ -152,7 +153,7 @@ const options: HTMLReactParserOptions = {
       if (name === "tbody") {
         return (
           <tbody>
-            {domToReact(children, options)}
+            {domToReact(children as DOMNode[], options)}
           </tbody>
         );
       }
@@ -160,7 +161,7 @@ const options: HTMLReactParserOptions = {
       if (name === "tr") {
         return (
           <tr className="border-b border-neutral-200 dark:border-neutral-800 last:border-b-0">
-            {domToReact(children, options)}
+            {domToReact(children as DOMNode[], options)}
           </tr>
         );
       }
@@ -168,7 +169,7 @@ const options: HTMLReactParserOptions = {
       if (name === "th") {
         return (
           <th className="px-4 py-3 text-left font-bold text-neutral-900 dark:text-white whitespace-nowrap">
-            {domToReact(children)}
+            {domToReact(children as DOMNode[])}
           </th>
         );
       }
@@ -176,7 +177,7 @@ const options: HTMLReactParserOptions = {
       if (name === "td") {
         return (
           <td className="px-4 py-3 text-neutral-700 dark:text-neutral-300">
-            {domToReact(children)}
+            {domToReact(children as DOMNode[])}
           </td>
         );
       }
@@ -191,7 +192,7 @@ const options: HTMLReactParserOptions = {
             target={href?.startsWith("http") ? "_blank" : undefined}
             rel={href?.startsWith("http") ? "noopener noreferrer" : undefined}
           >
-            {domToReact(children, options)}
+            {domToReact(children as DOMNode[], options)}
           </a>
         );
       }
@@ -200,7 +201,7 @@ const options: HTMLReactParserOptions = {
       if (name === "strong" || name === "b") {
         return (
           <strong className="!text-neutral-900 dark:!text-white !font-bold">
-            {domToReact(children, options)}
+            {domToReact(children as DOMNode[], options)}
           </strong>
         );
       }
@@ -209,7 +210,7 @@ const options: HTMLReactParserOptions = {
       if (name === "em" || name === "i") {
         return (
           <em className="italic text-neutral-700 dark:text-neutral-300">
-            {domToReact(children, options)}
+            {domToReact(children as DOMNode[], options)}
           </em>
         );
       }
@@ -229,7 +230,7 @@ const options: HTMLReactParserOptions = {
         if (className?.includes("wp-block-columns")) {
           return (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 my-6">
-              {domToReact(children, options)}
+              {domToReact(children as DOMNode[], options)}
             </div>
           );
         }
@@ -237,14 +238,14 @@ const options: HTMLReactParserOptions = {
         if (className?.includes("wp-block-column")) {
           return (
             <div className="p-4 bg-neutral-50 dark:bg-neutral-900 rounded-lg border border-neutral-200 dark:border-neutral-800">
-              {domToReact(children, options)}
+              {domToReact(children as DOMNode[], options)}
             </div>
           );
         }
 
         // Default div handling
         if (children && children.length > 0) {
-          return <div>{domToReact(children, options)}</div>;
+          return <div>{domToReact(children as DOMNode[], options)}</div>;
         }
       }
     }
