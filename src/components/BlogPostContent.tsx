@@ -108,7 +108,7 @@ const options: HTMLReactParserOptions = {
       if (name === "code") {
         // Check if parent is pre, then don't add inline styles
         const parent = domNode.parent;
-        if (parent?.name === "pre") {
+        if (parent && parent instanceof Element && parent.name === "pre") {
           return (
             <code className="text-sm font-mono">
               {domToReact(children as DOMNode[], options)}
