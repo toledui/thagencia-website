@@ -1,15 +1,32 @@
 import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
+// Validar que las variables de entorno existan
+const requiredEnvVars = [
+  "SMTP_HOST",
+  "SMTP_PORT",
+  "SMTP_USER",
+  "SMTP_PASSWORD",
+  "SMTP_FROM",
+];
+
+for (const envVar of requiredEnvVars) {
+  if (!process.env[envVar]) {
+    console.error(`Variable de entorno faltante: ${envVar}`);
+  }
+}
+
 // Configurar el transporte de correo
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
-  port: parseInt(process.env.SMTP_PORT || "587"),
-  secure: process.env.SMTP_SECURE === "true", // true para 465, false para otros puertos
+  port: parseInt(process.env.SMTP_PORT || "465"),
+  secure: process.env.SMTP_SECURE === "true", // true para 465, false para 587
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASSWORD,
   },
+  logger: true, // Muestra logs
+  debug: true,  // Modo debug activado
 });
 
 export async function POST(request: NextRequest) {
@@ -38,28 +55,93 @@ export async function POST(request: NextRequest) {
     const mailToTHagencia = {
       from: process.env.SMTP_FROM || "noreply@thagencia.com",
       to: "ventas@thagencia.com",
-      subject: `Nuevo mensaje de contacto de ${name}`,
+      subject: `🔔 Nuevo contacto: ${name}`,
       html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background: #f9fafb; border-radius: 8px;">
-          <h2 style="color: #ff6b35; margin-bottom: 20px;">Nuevo Mensaje de Contacto</h2>
-          
-          <div style="background: white; padding: 20px; border-radius: 6px; margin-bottom: 20px;">
-            <p style="margin: 0 0 15px 0;"><strong>Nombre:</strong> ${name}</p>
-            <p style="margin: 0 0 15px 0;"><strong>Email:</strong> ${email}</p>
-            ${phone ? `<p style="margin: 0 0 15px 0;"><strong>Teléfono:</strong> ${phone}</p>` : ""}
-            ${company ? `<p style="margin: 0 0 15px 0;"><strong>Empresa:</strong> ${company}</p>` : ""}
-            
-            <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 20px 0;">
-            
-            <h3 style="color: #1f2937; margin: 15px 0 10px 0;">Mensaje:</h3>
-            <p style="color: #4b5563; line-height: 1.6; white-space: pre-wrap;">${message}</p>
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Nuevo Mensaje de Contacto</title>
+        </head>
+        <body style="margin: 0; padding: 0; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+          <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+            <!-- Encabezado -->
+            <div style="background: white; border-radius: 12px 12px 0 0; padding: 40px 30px; text-align: center; border-bottom: 4px solid #ff6b35;">
+              <h1 style="margin: 0; font-size: 32px; font-weight: 800;">
+                <span style="color: #ff6b35;">TH</span><span style="color: #1f2937;">agencia</span>
+              </h1>
+              <p style="margin: 10px 0 0 0; color: #6b7280; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">🎯 Nuevo Mensaje de Contacto</p>
+            </div>
+
+            <!-- Contenido Principal -->
+            <div style="background: white; padding: 30px; border-bottom: 1px solid #e5e7eb;">
+              <!-- Información del Contacto -->
+              <div style="background: linear-gradient(135deg, #667eea15, #764ba215); padding: 20px; border-radius: 10px; margin-bottom: 25px; border-left: 4px solid #ff6b35;">
+                <h2 style="color: #1f2937; margin: 0 0 20px 0; font-size: 18px; font-weight: 600;">👤 Información del Cliente</h2>
+                
+                <table style="width: 100%; border-collapse: collapse;">
+                  <tr>
+                    <td style="padding: 10px 0; border-bottom: 1px solid #e5e7eb;">
+                      <span style="color: #6b7280; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;">Nombre</span>
+                      <p style="color: #1f2937; margin: 5px 0 0 0; font-size: 16px; font-weight: 600;">${name}</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 10px 0; border-bottom: 1px solid #e5e7eb;">
+                      <span style="color: #6b7280; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;">📧 Email</span>
+                      <p style="margin: 5px 0 0 0;">
+                        <a href="mailto:${email}" style="color: #ff6b35; text-decoration: none; font-weight: 600; font-size: 15px;">${email}</a>
+                      </p>
+                    </td>
+                  </tr>
+                  ${phone ? `
+                  <tr>
+                    <td style="padding: 10px 0; border-bottom: 1px solid #e5e7eb;">
+                      <span style="color: #6b7280; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;">📱 Teléfono</span>
+                      <p style="color: #1f2937; margin: 5px 0 0 0; font-size: 15px; font-weight: 600;">${phone}</p>
+                    </td>
+                  </tr>
+                  ` : ""}
+                  ${company ? `
+                  <tr>
+                    <td style="padding: 10px 0;">
+                      <span style="color: #6b7280; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;">🏢 Empresa</span>
+                      <p style="color: #1f2937; margin: 5px 0 0 0; font-size: 15px; font-weight: 600;">${company}</p>
+                    </td>
+                  </tr>
+                  ` : ""}
+                </table>
+              </div>
+
+              <!-- Mensaje -->
+              <div style="margin-bottom: 25px;">
+                <h2 style="color: #1f2937; margin: 0 0 15px 0; font-size: 18px; font-weight: 600;">💬 Mensaje</h2>
+                <div style="background: #f9fafb; padding: 20px; border-radius: 8px; border-left: 4px solid #667eea;">
+                  <p style="color: #1f2937; margin: 0; line-height: 1.8; font-size: 15px; white-space: pre-wrap;">${message}</p>
+                </div>
+              </div>
+
+              <!-- CTA Responder -->
+              <div style="text-align: center;">
+                <a href="mailto:${email}?subject=Re: Tu mensaje en THagencia" style="display: inline-block; background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 14px 32px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4); transition: transform 0.2s;">
+                  ↩️ Responder al Cliente
+                </a>
+              </div>
+            </div>
+
+            <!-- Footer -->
+            <div style="background: #1f2937; color: white; padding: 25px 30px; border-radius: 0 0 12px 12px; text-align: center;">
+              <p style="margin: 0 0 15px 0; font-size: 13px; opacity: 0.8;">
+                <strong style="color: #ff6b35;">Recibido desde:</strong> Sistema de Contacto Web
+              </p>
+              <p style="margin: 0; font-size: 12px; opacity: 0.6;">
+                © ${new Date().getFullYear()} THagencia | Desarrollo Web & SEO en Querétaro
+              </p>
+            </div>
           </div>
-          
-          <div style="background: #f3f4f6; padding: 15px; border-radius: 6px; font-size: 12px; color: #6b7280;">
-            <p style="margin: 0;">Responder a: <a href="mailto:${email}" style="color: #ff6b35;">${email}</a></p>
-            <p style="margin: 5px 0 0 0;">Enviado desde: THagencia - Sistema de Contacto</p>
-          </div>
-        </div>
+        </body>
+        </html>
       `,
       replyTo: email,
     };
@@ -113,9 +195,15 @@ export async function POST(request: NextRequest) {
       { status: 200 }
     );
   } catch (error) {
-    console.error("Error al enviar email:", error);
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    console.error("Error detallado al enviar email:", errorMessage);
+    console.error("Stack:", error instanceof Error ? error.stack : "N/A");
+    
     return NextResponse.json(
-      { error: "Error al procesar el formulario" },
+      { 
+        error: "Error al procesar el formulario",
+        details: process.env.NODE_ENV === "development" ? errorMessage : undefined,
+      },
       { status: 500 }
     );
   }
