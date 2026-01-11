@@ -111,6 +111,13 @@ gtag('js', new Date());
 
 gtag('config', 'G-T098P1MBEV');`}
         </script>
+        
+        {/* reCAPTCHA Enterprise */}
+        <script 
+          async 
+          src={`https://www.google.com/recaptcha/enterprise.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_ENTERPRISE_KEY}`}
+        ></script>
+        
         <script 
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

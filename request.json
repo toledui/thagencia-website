@@ -1,0 +1,7 @@
+{
+  "event": {
+    "token": "TOKEN_FROM_GRECAPTCHA_EXECUTE",
+    "expectedAction": "CONTACT_FORM",
+    "siteKey": "6Lf0YLYfAAAAAOnib-CnsgOA0Q_woKpd6Ko1qA8e"
+  }
+}

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Check, X, ArrowRight, X as CloseIcon } from "lucide-react";
+import { useReCaptcha } from "@/hooks/useReCaptcha";
 
 // --- DATOS DE LOS PLANES ---
 const plans = [
@@ -65,24 +66,40 @@ const plans = [
 
 // --- COMPONENTE DEL MODAL (FORMULARIO) ---
 function LeadFormModal({ planName, isOpen, onClose }: { planName: string, isOpen: boolean, onClose: () => void }) {
+  const executeRecaptcha = useReCaptcha({ action: "PRICING_INQUIRY" });
+  
   if (!isOpen) return null;
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const name = formData.get("name");
     const email = formData.get("email");
     const message = formData.get("message");
 
-    // Construimos el mensaje de WhatsApp
-    const whatsappMessage = `Hola THagencia, me interesa el *Paquete ${planName}*.%0A%0A📝 *Mis Datos:*%0A👤 Nombre: ${name}%0A📧 Correo: ${email}%0A💬 Mensaje: ${message}`;
-    
-    // Redirigimos a WhatsApp
-    const whatsappUrl = `https://wa.me/5219656976675?text=${whatsappMessage}`;
-    window.open(whatsappUrl, '_blank');
-    
-    // Opcional: Aquí podrías agregar una llamada a una API para guardar el lead en base de datos antes de redirigir.
-    onClose();
+    try {
+      // Execute reCAPTCHA before sending to WhatsApp
+      const recaptchaToken = await executeRecaptcha();
+      
+      if (!recaptchaToken) {
+        console.error("reCAPTCHA verification failed");
+        alert("Error de verificación. Por favor intenta de nuevo.");
+        return;
+      }
+
+      // Construimos el mensaje de WhatsApp
+      const whatsappMessage = `Hola THagencia, me interesa el *Paquete ${planName}*.%0A%0A📝 *Mis Datos:*%0A👤 Nombre: ${name}%0A📧 Correo: ${email}%0A💬 Mensaje: ${message}`;
+      
+      // Redirigimos a WhatsApp
+      const whatsappUrl = `https://wa.me/5219656976675?text=${whatsappMessage}`;
+      window.open(whatsappUrl, '_blank');
+      
+      // Opcional: Aquí podrías agregar una llamada a una API para guardar el lead en base de datos antes de redirigir.
+      onClose();
+    } catch (error) {
+      console.error("Error in handleSubmit:", error);
+      alert("Error al procesar tu solicitud. Por favor intenta de nuevo.");
+    }
   };
 
   return (

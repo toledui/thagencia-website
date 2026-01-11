@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Send, CheckCircle, AlertCircle } from "lucide-react";
+import { useReCaptcha } from "@/hooks/useReCaptcha";
 
 type FormData = {
   name: string;
@@ -24,6 +25,7 @@ export function ContactForm() {
 
   const [status, setStatus] = useState<FormStatus>("idle");
   const [errorMessage, setErrorMessage] = useState("");
+  const executeRecaptcha = useReCaptcha({ action: "CONTACT_FORM" });
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -41,12 +43,22 @@ export function ContactForm() {
     setErrorMessage("");
 
     try {
+      // Execute reCAPTCHA
+      const recaptchaToken = await executeRecaptcha();
+      
+      if (!recaptchaToken) {
+        throw new Error("Error de verificación reCAPTCHA");
+      }
+
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          recaptchaToken,
+        }),
       });
 
       if (!response.ok) {
