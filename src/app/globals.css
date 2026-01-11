@@ -123,8 +123,12 @@ a {
 }
 
 .prose strong {
-  color: white;
+  color: inherit;
   font-weight: 700;
+}
+
+.dark .prose strong {
+  color: white;
 }
 
 .prose p {

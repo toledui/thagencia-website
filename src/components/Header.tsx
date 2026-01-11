@@ -86,7 +86,7 @@ export function Header({ siteTitle, logoUrl }: HeaderProps) {
                   fill
                   className="object-contain object-left"
                   sizes="(max-width: 768px) 160px, 224px"
-                  priority
+                  priority={false}
                 />
               </a>
             ) : (
