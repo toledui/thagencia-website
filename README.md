@@ -1,36 +1,148 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# THagencia - Frontend (Next.js Headless)
 
-## Getting Started
+Proyecto frontend de **THagencia** usando **Next.js** como framework de React y **WordPress** como CMS (Headless).
 
-First, run the development server:
+## Stack Tecnológico
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Next.js 16** (App Router)
+- **TypeScript**
+- **Tailwind CSS** (estilos)
+- **GSAP** (animaciones)
+- **lucide-react** (iconos)
+- **WordPress REST API** (backend headless)
+
+## Estructura del Proyecto
+
+```
+src/
+├── app/
+│   ├── layout.tsx          # Layout raíz con metadatos SEO
+│   ├── page.tsx            # Home page (integra todos los componentes)
+│   └── globals.css         # Estilos globales + Tailwind
+├── components/
+│   ├── Header.tsx          # Navbar con menú responsive
+│   ├── Hero.tsx            # Sección hero principal
+│   ├── Manifest.tsx        # Sección "Quiénes somos"
+│   ├── Services.tsx        # Los 3 pilares de servicios
+│   ├── Portfolio.tsx       # Grid de proyectos (bento layout)
+│   ├── FAQ.tsx             # Preguntas frecuentes
+│   ├── SEOBlock.tsx        # Bloque de contenido SEO
+│   ├── Footer.tsx          # Footer con CTA
+│   └── CustomCursor.tsx    # Cursor magnético (GSAP)
+├── hooks/
+│   └── useGSAPAnimations.ts # Hooks para animaciones (scroll reveal, floating)
+├── lib/
+│   ├── content.ts          # Datos de servicios, proyectos, FAQ
+│   ├── wp/
+│   │   ├── config.ts       # Configuración de WordPress
+│   │   ├── types.ts        # Types para REST API
+│   │   └── rest.ts         # Cliente de fetch para WP REST
+│   └── wp-graphql/         # (Futuro) Cliente para WP GraphQL
+└── .env.example            # Plantilla de variables de entorno
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Instalación
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+# Clonar o descargar el proyecto
+git clone <repo> thagencia
+cd thagencia
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# Instalar dependencias
+npm install
+```
 
-## Learn More
+## Configuración de WordPress (Headless)
 
-To learn more about Next.js, take a look at the following resources:
+### 1. Crear archivo `.env.local`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+cp .env.example .env.local
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 2. Configurar `NEXT_PUBLIC_WP_BASE_URL`
 
-## Deploy on Vercel
+```env
+# .env.local
+NEXT_PUBLIC_WP_BASE_URL=https://tuwordpress.com
+WORDPRESS_API_URL=https://tuwordpress.com/graphql
+# Opcional: ID numérico del media item usado como logo
+WORDPRESS_SITE_LOGO_ID=123
+# Opcional: token Bearer si tu GraphQL está protegido
+# WORDPRESS_AUTH_TOKEN=xxxxxxxx
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Reemplaza con tu dominio real y, si usas WPGraphQL, apunta a `/graphql`.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 3. Habilitar GraphQL (WPGraphQL)
+- Instala y activa el plugin **WPGraphQL** en WordPress.
+- (Opcional) Si tu logo está en `Apariencia > Personalizar > Identidad del sitio`, obtén el ID del media item y colócalo en `WORDPRESS_SITE_LOGO_ID`.
+- Si tu endpoint requiere auth (JWT/Bearer), define `WORDPRESS_AUTH_TOKEN`.
+
+### 4. REST API (opcional)
+Para compatibilidad previa, sigue disponible `NEXT_PUBLIC_WP_BASE_URL` apuntando a `/wp-json`.  
+Verifica: `https://tuwordpress.com/wp-json/wp/v2/posts`
+
+## Desarrollo Local
+
+```bash
+# Correr servidor de desarrollo (http://localhost:3000)
+npm run dev
+```
+
+El servidor se recargará automáticamente cuando guardes cambios.
+
+## Build & Producción
+
+```bash
+# Build para producción
+npm run build
+
+# Correr build localmente
+npm start
+```
+
+## Características
+
+### ✨ Animaciones (GSAP)
+
+- Cursor magnético personalizado
+- Scroll reveal (elementos aparecen al hacer scroll)
+- Elementos flotantes en el hero
+- Transiciones suaves entre secciones
+\n### 🎨 Diseño
+
+- Responsive (mobile, tablet, desktop)
+- Tema oscuro moderno
+- Tipografía escalable
+- Effecto grain en fondo
+\n### 📱 Componentes Reutilizables
+
+- Header (navbar con menú mobile)
+- Hero section con CTAs
+- Service cards
+- Portfolio bento grid
+- FAQ accordion
+- Footer con datos de contacto
+
+## Próximos Pasos
+
+### 1. Conectar WordPress
+- [ ] Validar que REST API de WordPress esté accesible
+- [ ] Actualizar `getLatestPosts()` en `src/lib/wp/rest.ts` para traer datos reales
+- [ ] Crear páginas dinámicas para posts (`src/app/blog/[slug]`)
+
+### 2. Implementar CMS dinámico
+- [ ] Portafolio: traer proyectos desde WordPress
+- [ ] Servicios: editar desde WordPress (custom post type)
+- [ ] FAQ: gestionar desde WordPress
+
+### 3. SEO & Performance
+- [ ] Agregar `next/image` para optimizar imágenes
+- [ ] Sitemap dinámico
+- [ ] Schema.org structured data
+- [ ] Canonical URLs
+\n### 4. Formularios & Contacto
+- [ ] Integración con formulario de contacto (Formspree, SendGrid, etc.)
+- [ ] Newsletter subscription
+\n## Deployment\n\n### Vercel (Recomendado)\n\n```bash\n# Conectar repo a Vercel\nvercel link\n\n# Deploy automático al push a main\nvercel\n```\n\n### Otros Providers\n- Netlify\n- AWS Amplify\n- Self-hosted (VPS)\n\n## Documentación\n\n- [Next.js Docs](https://nextjs.org/docs)\n- [GSAP Docs](https://gsap.com/docs)\n- [Tailwind CSS](https://tailwindcss.com)\n- [WordPress REST API](https://developer.wordpress.org/rest-api/)\n\n## Soporte\n\nPara issues, feature requests o dudas, contactar a THagencia.\n\n---\n\n© 2026 THagencia. Hecho en Querétaro para el mundo.

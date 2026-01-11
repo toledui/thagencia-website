@@ -1,66 +1,73 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import type { Metadata } from "next";
+import JsonLd from "@/components/JsonLd";
+import { Header } from "@/components/Header";
+import { Hero } from "@/components/Hero";
+import { TechStack } from "@/components/TechStack";
+import { Manifest } from "@/components/Manifest";
+import { Services } from "@/components/Services";
+import { PortfolioShowcase } from "@/components/PortfolioShowcase";
+import { SEOBlock } from "@/components/SEOBlock";
+import { FAQ } from "@/components/FAQ";
+import { Footer } from "@/components/Footer";
+import { CustomCursor } from "@/components/CustomCursor";
+import { FloatingCTA } from "@/components/FloatingCTA";
+import { LatestPosts } from "@/components/LatestPosts";
+import { getPosts, getSiteInfo, getPortfolioProjects } from "@/lib/wordpress";
 
-export default function Home() {
+export const metadata: Metadata = {
+  title: "Desarrollo de Páginas Web en Querétaro | Sistemas y SEO | THagencia",
+  description:
+    "Agencia experta en Desarrollo Web y Sistemas a la Medida en Querétaro. Creamos sitios rápidos, tiendas en línea y estrategias SEO que venden.",
+  keywords: [
+    "Páginas web en Querétaro",
+    "Desarrollo web Querétaro",
+    "Agencia SEO Querétaro",
+    "Sistemas a la medida",
+  ],
+  alternates: {
+    canonical: "https://thagencia.com",
+  },
+  openGraph: {
+    title: "Desarrollo de Páginas Web en Querétaro | THagencia",
+    description:
+      "Transformamos tu negocio con tecnología. Desarrollo Web, Sistemas ERP y SEO en Querétaro.",
+    url: "https://thagencia.com",
+    siteName: "THagencia",
+    locale: "es_MX",
+    type: "website",
+    images: [
+      {
+        url: "https://thagencia.com/wp-content/uploads/2023/09/logo-THagencia2.png",
+        width: 1200,
+        height: 630,
+        alt: "THagencia Desarrollo Web",
+      },
+    ],
+  },
+};
+
+export default async function Home() {
+  const [siteInfo, posts, projects] = await Promise.all([
+    getSiteInfo().catch(() => null),
+    getPosts(3).catch(() => []),
+    getPortfolioProjects(4).catch(() => []),
+  ]);
+
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.tsx file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+    <div className="bg-neutral-950 min-h-screen text-white overflow-x-hidden font-sans relative antialiased">
+      <CustomCursor />
+      <FloatingCTA />
+      <JsonLd />
+      <Header siteTitle={siteInfo?.title} logoUrl={siteInfo?.logo?.url} />
+      <Hero />
+      <TechStack />
+      <Manifest logoUrl={siteInfo?.logo?.url} />
+      <Services />
+      <PortfolioShowcase projects={projects} />
+      <LatestPosts posts={posts} />
+      <SEOBlock />
+      <FAQ />
+      <Footer />
     </div>
   );
 }
