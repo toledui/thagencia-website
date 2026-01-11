@@ -21,6 +21,7 @@ export function PortfolioShowcase({ projects }: PortfolioProps) {
   const items: PortfolioCardProps[] = (projects && projects.length > 0
     ? projects.slice(0, 4).map((p, idx) => ({
         id: p.id ?? String(idx),
+        slug: p.slug,
         title: p.title ?? "Proyecto",
         category: p.category ?? "Desarrollo Web",
         image: p.image ?? undefined,
@@ -125,7 +126,7 @@ function PortfolioCard({ project }: { project: PortfolioCardProps }) {
 
   return (
     <a
-      href={project.slug ? `/portafolio/${project.slug}` : "#"}
+      href={project.slug ? `/portafolio/${project.slug}` : "/proyectos"}
       className={`
         portfolio-card group relative overflow-hidden rounded-2xl md:rounded-3xl bg-gradient-to-br from-neutral-900 to-neutral-950 dark:from-neutral-900 dark:to-neutral-950 cursor-pointer border border-neutral-800 dark:border-neutral-800 shadow-xl hover:shadow-2xl transition-shadow duration-300 block
         ${sizeClass}

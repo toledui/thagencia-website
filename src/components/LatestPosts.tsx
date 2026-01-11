@@ -99,7 +99,7 @@ export function LatestPosts({ posts }: { posts: WpPost[] }) {
                 )}
 
                 <Link
-                  href={`/blog/${post.slug}`}
+                  href={post.categories && post.categories.length > 0 ? `/${post.categories[0]}/${post.slug}` : `/${post.slug}`}
                   className="inline-flex items-center gap-2 text-orange-600 font-semibold text-sm group-hover:gap-3 transition-all"
                 >
                   Leer más

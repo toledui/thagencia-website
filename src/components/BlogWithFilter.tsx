@@ -14,7 +14,7 @@ export function BlogWithFilter({ posts }: BlogWithFilterProps) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Extraer categorías únicas
+  // Extraer categorías únicas - memoizado correctamente
   const categories = useMemo(() => {
     const allCategories = new Set<string>();
     posts.forEach((post) => {
@@ -23,7 +23,7 @@ export function BlogWithFilter({ posts }: BlogWithFilterProps) {
     return Array.from(allCategories).sort();
   }, [posts]);
 
-  // Filtrar posts por categoría
+  // Filtrar posts por categoría - memoizado correctamente
   const filteredPosts = useMemo(() => {
     if (!selectedCategory) return posts;
     return posts.filter((post) =>
@@ -39,9 +39,11 @@ export function BlogWithFilter({ posts }: BlogWithFilterProps) {
       }
     }
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => document.removeEventListener("mousedown", handleClickOutside);
+    }
+  }, [isOpen]);
 
   return (
     <div>
