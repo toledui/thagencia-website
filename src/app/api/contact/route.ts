@@ -81,7 +81,7 @@ async function verifyRecaptchaToken(token: string, expectedAction: string = ""):
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { name, email, phone, company, message, recaptchaToken } = body;
+    const { name,Correo, phone, company, message, recaptchaToken } = body;
 
     // Validar reCAPTCHA token
     if (!recaptchaToken) {
@@ -108,8 +108,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Validar email
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    // ValidarCorreo
+    constCorreoRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       return NextResponse.json(
         { error: "Email invÃ¡lido" },
@@ -117,18 +117,18 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Email para THagencia (recepciÃ³n)
+    //Correo para THagencia (recepciÃ³n)
     const mailToTHagencia = {
       from: process.env.SMTP_FROM || "noreply@thagencia.com",
       to: "ventas@thagencia.com",
-      subject: `ðŸ”” Nuevo contacto: ${name}`,
+      subject: ` Nuevo contacto: ${name}`,
       html: `
         <!DOCTYPE html>
         <html lang="es">
         <head>
-          <meta charset="UTF-8">
+          <meta charset="UTF-8"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>Nuevo Mensaje de Contacto</title>
+          <title>NuevoMensaje de Contacto</title>
         </head>
         <body style="margin: 0; padding: 0; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
           <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
@@ -137,7 +137,7 @@ export async function POST(request: NextRequest) {
               <h1 style="margin: 0; font-size: 32px; font-weight: 800;">
                 <span style="color: #ff6b35;">TH</span><span style="color: #1f2937;">agencia</span>
               </h1>
-              <p style="margin: 10px 0 0 0; color: #6b7280; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">ðŸŽ¯ Nuevo Mensaje de Contacto</p>
+              <p style="margin: 10px 0 0 0; color: #6b7280; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">ðŸŽ¯NuevoMensaje de Contacto</p>
             </div>
 
             <!-- Contenido Principal -->
@@ -155,7 +155,7 @@ export async function POST(request: NextRequest) {
                   </tr>
                   <tr>
                     <td style="padding: 10px 0; border-bottom: 1px solid #e5e7eb;">
-                      <span style="color: #6b7280; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;">ðŸ“§ Email</span>
+                      <span style="color: #6b7280; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;">ðŸ“§Correo</span>
                       <p style="margin: 5px 0 0 0;">
                         <a href="mailto:${email}" style="color: #ff6b35; text-decoration: none; font-weight: 600; font-size: 15px;">${email}</a>
                       </p>
@@ -172,7 +172,7 @@ export async function POST(request: NextRequest) {
                   ${company ? `
                   <tr>
                     <td style="padding: 10px 0;">
-                      <span style="color: #6b7280; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;">ðŸ¢ Empresa</span>
+                      <span style="color: #6b7280; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;">ðŸ¢Empresa</span>
                       <p style="color: #1f2937; margin: 5px 0 0 0; font-size: 15px; font-weight: 600;">${company}</p>
                     </td>
                   </tr>
@@ -180,18 +180,18 @@ export async function POST(request: NextRequest) {
                 </table>
               </div>
 
-              <!-- Mensaje -->
+              <!--Mensaje -->
               <div style="margin-bottom: 25px;">
-                <h2 style="color: #1f2937; margin: 0 0 15px 0; font-size: 18px; font-weight: 600;">ðŸ’¬ Mensaje</h2>
+                <h2 style="color: #1f2937; margin: 0 0 15px 0; font-size: 18px; font-weight: 600;">ðŸ’¬Mensaje</h2>
                 <div style="background: #f9fafb; padding: 20px; border-radius: 8px; border-left: 4px solid #667eea;">
                   <p style="color: #1f2937; margin: 0; line-height: 1.8; font-size: 15px; white-space: pre-wrap;">${message}</p>
                 </div>
               </div>
 
-              <!-- CTA Responder -->
+              <!-- CTAResponder -->
               <div style="text-align: center;">
-                <a href="mailto:${email}?subject=Re: Tu mensaje en THagencia" style="display: inline-block; background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 14px 32px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4); transition: transform 0.2s;">
-                  â†©ï¸ Responder al Cliente
+                <a href="mailto:${email}?subject=Re: TuMensaje en THagencia" style="display: inline-block; background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 14px 32px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4); transition: transform 0.2s;">
+                  â†©ï¸Responder al Cliente
                 </a>
               </div>
             </div>
@@ -209,14 +209,14 @@ export async function POST(request: NextRequest) {
         </body>
         </html>
       `,
-      replyTo: email,
+      replyTo:Correo,
     };
 
-    // Email de confirmaciÃ³n para el cliente
+    //Correo de confirmaciÃ³n para el cliente
     const mailToClient = {
       from: process.env.SMTP_FROM || "noreply@thagencia.com",
-      to: email,
-      subject: "Hemos recibido tu mensaje - THagencia",
+      to:Correo,
+      subject: "Hemos recibido tuMensaje - THagencia",
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background: #f9fafb; border-radius: 8px;">
           <div style="margin-bottom: 30px;">
@@ -227,7 +227,7 @@ export async function POST(request: NextRequest) {
           
           <div style="background: white; padding: 20px; border-radius: 6px; margin-bottom: 20px; line-height: 1.6;">
             <p>Hola ${name},</p>
-            <p>Hemos recibido tu mensaje exitosamente. Nuestro equipo revisarÃ¡ tu solicitud y se pondrÃ¡ en contacto contigo pronto.</p>
+            <p>Hemos recibido tuMensaje exitosamente. Nuestro equipo revisarÃ¡ tu solicitud y se pondrÃ¡ en contacto contigo pronto.</p>
             <p>Si tu consulta es urgente, tambiÃ©n puedes contactarnos a travÃ©s de WhatsApp:</p>
             <p style="text-align: center; margin: 20px 0;">
               <a href="https://wa.me/5219656976675" style="display: inline-block; background: #25d366; color: white; padding: 12px 30px; border-radius: 6px; text-decoration: none; font-weight: bold;">Contactar por WhatsApp</a>
@@ -250,7 +250,7 @@ export async function POST(request: NextRequest) {
       `,
     };
 
-    // Enviar ambos emails
+    // Enviar ambosCorreos
     await Promise.all([
       transporter.sendMail(mailToTHagencia),
       transporter.sendMail(mailToClient),
@@ -262,7 +262,7 @@ export async function POST(request: NextRequest) {
     );
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
-    console.error("Error detallado al enviar email:", errorMessage);
+    console.error("Error detallado al enviarCorreo:", errorMessage);
     console.error("Stack:", error instanceof Error ? error.stack : "N/A");
     
     return NextResponse.json(
