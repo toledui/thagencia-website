@@ -76,19 +76,19 @@ function LeadFormModal({ planName, isOpen, onClose }: { planName: string, isOpen
     const message = formData.get("message");
 
     try {
-      // Construimos el mensaje de WhatsApp
-      const whatsappMessage = `Hola THagencia, me interesa el *Paquete ${planName}*.%0A%0A📝 *Mis Datos:*%0A👤 Nombre: ${name}%0A📧 Correo: ${email}%0A💬 Mensaje: ${message}`;
-      
-      // Redirigimos a WhatsApp
-      const whatsappUrl = `https://wa.me/5219656976675?text=${whatsappMessage}`;
-      window.open(whatsappUrl, '_blank');
-      
-      // Opcional: Aquí podrías agregar una llamada a una API para guardar el lead en base de datos antes de redirigir.
-      onClose();
-    } catch (error) {
-      console.error("Error in handleSubmit:", error);
-      alert("Error al procesar tu solicitud. Por favor intenta de nuevo.");
-    }
+        // Construimos el mensaje de WhatsApp (usar \n y codificar el texto)
+        const whatsappMessage = `Hola THagencia, me interesa el *Paquete ${planName}*.\n\n📝 *Mis Datos:*\n👤 Nombre: ${name}\n📧 Correo: ${email}\n💬 Mensaje: ${message}`;
+        
+        // Redirigimos a WhatsApp con encodeURIComponent para preservar emojis y formato
+        const whatsappUrl = `https://wa.me/5219656976675?text=${encodeURIComponent(whatsappMessage)}`;
+        window.open(whatsappUrl, '_blank');
+        
+        // Opcional: Aquí podrías agregar una llamada a una API para guardar el lead en base de datos antes de redirigir.
+        onClose();
+      } catch (error) {
+        console.error("Error in handleSubmit:", error);
+        alert("Error al procesar tu solicitud. Por favor intenta de nuevo.");
+      }
   };
 
   return (
