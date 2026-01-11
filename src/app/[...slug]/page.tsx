@@ -12,9 +12,6 @@ import {
   getPosts,
 } from "@/lib/wordpress";
 
-// Revalida posts individuales cada 10 minutos
-export const revalidate = 600;
-
 type Props = {
   params: { slug: string[] };
 };
