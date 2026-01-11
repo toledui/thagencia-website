@@ -404,14 +404,20 @@ export async function getAllPostSlugs(): Promise<string[]> {
     posts?: { nodes?: any[] } | null;
   }>(query);
 
-  return (data.posts?.nodes ?? [])
+  const slugs = (data.posts?.nodes ?? [])
     .map((p) => {
       // Si el post tiene categoría, construir slug con categoría
       const categorySlug = p.categories?.nodes?.[0]?.slug;
       if (categorySlug && p.slug) {
         return `${categorySlug}/${p.slug}`;
       }
+      // Si no tiene categoría, retornar solo el slug (fallback)
       return p.slug;
     })
     .filter((s): s is string => Boolean(s));
+
+  console.log("📝 Static posts generated:", slugs.length, "posts");
+  console.log("Sample:", slugs.slice(0, 3));
+  
+  return slugs;
 }

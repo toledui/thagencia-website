@@ -5,8 +5,8 @@ import { BlogWithFilter } from "@/components/BlogWithFilter";
 import { getSiteInfo, getPosts } from "@/lib/wordpress";
 import { Sparkles } from "lucide-react";
 
-// Revalida (consulta WP) cada 60s al recibir visitas
-export const revalidate = 60;
+// Revalida (consulta WP) cada 10 minutos al recibir visitas
+export const revalidate = 600;
 
 export const metadata: Metadata = {
   title: "Blog de Desarrollo Web y SEO | THagencia",
