@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "https://thagencia.com/wp-content/uploads/2023/09/logo-THagencia2.png", // Idealmente cambia esto por una imagen collage de tus trabajos
+        url: "https://thagencia.com/uploads/images/thagencia-logo.jpg", // Idealmente cambia esto por una imagen collage de tus trabajos
         width: 1200,
         height: 630,
         alt: "Portafolio THagencia",

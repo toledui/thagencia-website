@@ -1,12 +1,15 @@
 const JsonLd = () => {
+  const siteUrl = "https://thagencia.com";
+  const logoPath = "/uploads/images/thagencia-logo.jpg";
+
   const schema = {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
     "@id": "https://thagencia.com/#organization",
     name: "THagencia",
     url: "https://thagencia.com",
-    logo: "https://thagencia.com/wp-content/uploads/2023/09/logo-THagencia2.png",
-    image: "https://thagencia.com/wp-content/uploads/2023/07/logo-THagencia-new-one.png",
+    logo: `${siteUrl}${logoPath}`,
+    image: `${siteUrl}${logoPath}`,
     description:
       "Agencia de desarrollo web y posicionamiento SEO en Querétaro. Expertos en Sistemas a la Medida y Marketing Digital.",
     telephone: "+529656976675",

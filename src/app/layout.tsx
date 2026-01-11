@@ -1,5 +1,6 @@
 import { ThemeProvider } from "@/context/ThemeContext";
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
@@ -8,6 +9,9 @@ const inter = Inter({
   subsets: ["latin"],
   weight: ["300", "400", "500", "700", "900"],
 });
+
+const siteUrl = "https://thagencia.com";
+const logoPath = "/uploads/images/thagencia-logo.jpg";
 
 export const metadata: Metadata = {
   title: "THagencia | Desarrollo Web en Querétaro",
@@ -39,11 +43,11 @@ const jsonLd = {
   "url": "https://thagencia.com",
   "logo": {
     "@type": "ImageObject",
-    "url": "https://thagencia.com/wp-content/uploads/2023/09/logo-THagencia2.png",
+    "url": `${siteUrl}${logoPath}`,
     "width": 1200,
     "height": 630
   },
-  "image": "https://thagencia.com/wp-content/uploads/2023/07/logo-THagencia-new-one.png",
+  "image": `${siteUrl}${logoPath}`,
   "description": "Agencia de desarrollo web y posicionamiento SEO en Querétaro. Expertos en Sistemas a la Medida y Marketing Digital.",
   "telephone": "+529656976675",
   "email": "ventas@thagencia.com",
@@ -98,6 +102,18 @@ export default function RootLayout({
   return (
     <html lang="es">
       <head>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-T098P1MBEV"
+          strategy="afterInteractive"
+        />
+        <Script id="gtag-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-T098P1MBEV');
+          `}
+        </Script>
         <script 
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

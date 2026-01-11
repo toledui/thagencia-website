@@ -119,7 +119,7 @@ export function Manifest({ logoUrl }: ManifestProps) {
                   <Image
                     src={
                       logoUrl ??
-                      "https://thagencia.com/wp-content/uploads/2023/09/logo-THagencia2.png"
+                      "/uploads/images/thagencia-logo.jpg"
                     }
                     alt="THagencia - Agencia de Desarrollo Web y SEO en Querétaro"
                     fill

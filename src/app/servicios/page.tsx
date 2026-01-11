@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     title: "Servicios de Desarrollo Web y SEO | THagencia",
     description: "Ingeniería de software aplicada a negocios. Ver servicios.",
     url: "https://thagencia.com/servicios",
-    images: [{ url: "https://thagencia.com/wp-content/uploads/2023/09/logo-THagencia2.png", width: 1200, height: 630 }],
+    images: [{ url: "https://thagencia.com/uploads/images/thagencia-logo.jpg", width: 1200, height: 630 }],
   },
 };
 

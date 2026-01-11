@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "https://thagencia.com/wp-content/uploads/2023/09/logo-THagencia2.png",
+        url: "https://thagencia.com/uploads/images/thagencia-logo.jpg",
         width: 1200,
         height: 630,
         alt: "THagencia Blog",

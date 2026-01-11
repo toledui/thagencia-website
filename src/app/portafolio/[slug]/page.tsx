@@ -11,6 +11,9 @@ import {
   getPortfolioProjects 
 } from "@/lib/wordpress";
 
+const siteUrl = "https://thagencia.com";
+const logoPath = "/uploads/images/thagencia-logo.jpg";
+
 type Props = {
   params: { slug: string };
 };
@@ -44,7 +47,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: project.title,
       description: cleanDescription,
       url: `https://thagencia.com/portafolio/${slug}`,
-      images: project.featuredImage?.url ? [project.featuredImage.url] : [],
+      images: project.featuredImage?.url
+        ? [project.featuredImage.url]
+        : [`${siteUrl}${logoPath}`],
       type: "article",
     },
   };

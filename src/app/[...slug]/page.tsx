@@ -12,6 +12,9 @@ import {
   getPosts,
 } from "@/lib/wordpress";
 
+const siteUrl = "https://thagencia.com";
+const logoPath = "/uploads/images/thagencia-logo.jpg";
+
 type Props = {
   params: { slug: string[] };
 };
@@ -48,7 +51,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: cleanDescription,
       url: `https://thagencia.com/${slugString}`,
       type: "article",
-      images: post.featuredImage?.url ? [post.featuredImage.url] : [],
+      images: post.featuredImage?.url
+        ? [post.featuredImage.url]
+        : [`${siteUrl}${logoPath}`],
       publishedTime: post.date || undefined,
     },
   };
