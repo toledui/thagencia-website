@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { CookieBanner } from "@/components/CookieBanner";
 import { FloatingCTA } from "@/components/FloatingCTA";
+import { ConsentAnalytics } from "@/components/ConsentAnalytics";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -103,22 +104,6 @@ export default function RootLayout({
   return (
     <html lang="es">
       <head>
-        {/* Google tag (gtag.js) */}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-T098P1MBEV"></script>
-        <script>
-          {`window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-
-gtag('config', 'G-T098P1MBEV');`}
-        </script>
-        
-        {/* reCAPTCHA Enterprise */}
-        <script 
-          async 
-          src={`https://www.google.com/recaptcha/enterprise.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_ENTERPRISE_KEY}`}
-        ></script>
-        
         <script 
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -131,6 +116,8 @@ gtag('config', 'G-T098P1MBEV');`}
         <CookieBanner />
         <FloatingCTA />
       </body>
+      {/* Google Analytics condicionado al consentimiento */}
+      <ConsentAnalytics />
     </html>
   );
 }

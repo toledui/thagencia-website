@@ -4,6 +4,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { getSiteInfo } from "@/lib/wordpress";
 import type { Metadata } from "next";
+import Script from "next/script";
 
 export const metadata: Metadata = {
   title: "Contacto - THagencia",
@@ -40,6 +41,11 @@ export default async function ContactPage() {
 
   return (
     <div className="min-h-screen bg-white dark:bg-neutral-950 transition-colors duration-300 pt-32">
+      {/* Cargar reCAPTCHA Enterprise solo en esta página (lazy) */}
+      <Script
+        src={`https://www.google.com/recaptcha/enterprise.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_ENTERPRISE_KEY}`}
+        strategy="lazyOnload"
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(contactSchema) }}

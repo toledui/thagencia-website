@@ -20,6 +20,9 @@ export function CookieBanner() {
 
   const handleAccept = () => {
     localStorage.setItem("thagencia-cookie-consent", "accepted");
+    try {
+      window.dispatchEvent(new CustomEvent("thagencia-cookie-consent", { detail: "accepted" }));
+    } catch {}
     setIsVisible(false);
   };
 
@@ -53,14 +56,13 @@ export function CookieBanner() {
             onClick={handleAccept}
             className="px-4 md:px-6 py-2 bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-lg transition-colors duration-200"
           >
-            Entendido
+            Aceptar
           </button>
           <button
             onClick={handleDismiss}
-            className="p-2 hover:bg-neutral-700 dark:hover:bg-neutral-700 rounded-lg transition-colors duration-200"
-            aria-label="Cerrar banner de cookies"
+            className="px-4 md:px-6 py-2 bg-neutral-700 hover:bg-neutral-600 text-white font-bold rounded-lg transition-colors duration-200"
           >
-            <X className="w-5 h-5" />
+            Rechazar
           </button>
         </div>
       </div>

@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { Check, X, ArrowRight, X as CloseIcon } from "lucide-react";
-import { useReCaptcha } from "@/hooks/useReCaptcha";
 
 // --- DATOS DE LOS PLANES ---
 const plans = [
@@ -66,7 +65,6 @@ const plans = [
 
 // --- COMPONENTE DEL MODAL (FORMULARIO) ---
 function LeadFormModal({ planName, isOpen, onClose }: { planName: string, isOpen: boolean, onClose: () => void }) {
-  const executeRecaptcha = useReCaptcha({ action: "PRICING_INQUIRY" });
   
   if (!isOpen) return null;
 
@@ -78,15 +76,6 @@ function LeadFormModal({ planName, isOpen, onClose }: { planName: string, isOpen
     const message = formData.get("message");
 
     try {
-      // Execute reCAPTCHA before sending to WhatsApp
-      const recaptchaToken = await executeRecaptcha();
-      
-      if (!recaptchaToken) {
-        console.error("reCAPTCHA verification failed");
-        alert("Error de verificación. Por favor intenta de nuevo.");
-        return;
-      }
-
       // Construimos el mensaje de WhatsApp
       const whatsappMessage = `Hola THagencia, me interesa el *Paquete ${planName}*.%0A%0A📝 *Mis Datos:*%0A👤 Nombre: ${name}%0A📧 Correo: ${email}%0A💬 Mensaje: ${message}`;
       
