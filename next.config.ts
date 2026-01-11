@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "thagencia.com",
+        hostname: "api.thagencia.com",
         pathname: "/**",
       },
       {
