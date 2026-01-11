@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { CookieBanner } from "@/components/CookieBanner";
+import { FloatingCTA } from "@/components/FloatingCTA";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -128,6 +129,7 @@ gtag('config', 'G-T098P1MBEV');`}
       >
         <ThemeProvider>{children}</ThemeProvider>
         <CookieBanner />
+        <FloatingCTA />
       </body>
     </html>
   );

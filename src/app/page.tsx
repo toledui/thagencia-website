@@ -10,7 +10,6 @@ import { SEOBlock } from "@/components/SEOBlock";
 import { FAQ } from "@/components/FAQ";
 import { Footer } from "@/components/Footer";
 import { CustomCursor } from "@/components/CustomCursor";
-import { FloatingCTA } from "@/components/FloatingCTA";
 import { LatestPosts } from "@/components/LatestPosts";
 import { getPosts, getSiteInfo, getPortfolioProjects } from "@/lib/wordpress";
 
@@ -56,7 +55,6 @@ export default async function Home() {
   return (
     <div className="bg-neutral-950 min-h-screen text-white overflow-x-hidden font-sans relative antialiased">
       <CustomCursor />
-      <FloatingCTA />
       <JsonLd />
       <Header siteTitle={siteInfo?.title} logoUrl={siteInfo?.logo?.url} />
       <Hero />
