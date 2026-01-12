@@ -197,7 +197,7 @@ function ServiceCard({
               </p>
 
               <a href={service.link} className="inline-flex items-center gap-3 text-neutral-900 dark:text-white font-bold hover:text-orange-600 dark:hover:text-orange-600 transition-colors group">
-                Explorar Servicios
+                Ver Detalles
                 <div className="w-8 h-8 rounded-full border border-neutral-300 dark:border-neutral-700 flex items-center justify-center group-hover:border-orange-600 group-hover:bg-orange-600 group-hover:text-white transition-all">
                     <ArrowRight className="w-4 h-4" />
                 </div>

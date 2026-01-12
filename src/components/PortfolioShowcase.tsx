@@ -82,7 +82,7 @@ export function PortfolioShowcase({ projects }: PortfolioProps) {
               Resultados medibles, no promesas. Transformamos negocios locales en referentes digitales mediante arquitectura de software escalable y estrategias de posicionamiento que dominan el mercado.
             </p>
             <a 
-              href="/portafolio" 
+              href="/proyectos" 
               className="group flex items-center gap-3 text-neutral-900 dark:text-white font-bold border-b-2 border-transparent hover:border-orange-600 transition-all duration-300 pb-1"
             >
               <span>Explorar todos los proyectos</span>

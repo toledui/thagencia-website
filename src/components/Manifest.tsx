@@ -165,7 +165,7 @@ export function Manifest({ logoUrl }: ManifestProps) {
 
             <div className="mt-8">
               <a
-                href="#contacto"
+                href="/agencia"
                 className="inline-flex items-center gap-2 text-neutral-900 dark:text-white font-bold hover:text-orange-600 transition-colors group border-b-2 border-orange-600 pb-1"
               >
                 Conoce cómo trabajamos

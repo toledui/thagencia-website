@@ -79,7 +79,7 @@ export function Portfolio({ projects }: PortfolioProps) {
               Ingeniería digital aplicada. Resultados medibles para empresas que buscan escalar.
             </p>
             <a 
-              href="/portafolio" 
+              href="/proyectos" 
               className="group flex items-center gap-3 px-6 py-3 bg-neutral-900 dark:bg-white text-white dark:text-black rounded-full font-bold hover:bg-orange-600 dark:hover:bg-orange-600 dark:hover:text-white transition-all duration-300"
             >
               <span>Ver Portafolio Completo</span>
