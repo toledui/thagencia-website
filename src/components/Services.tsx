@@ -17,8 +17,8 @@ export function Services() {
     if (!containerRef.current) return;
 
     const ctx = gsap.context(() => {
-      // Detectar si es pantalla móvil
-      const isMobile = window.innerWidth < 768;
+      // Detectar si es pantalla móvil o tablet vertical (lg: 1024px)
+      const isSmallScreen = window.innerWidth < 1024;
 
       // Animación del Header (Título)
       gsap.from(".service-header-anim", {
@@ -32,7 +32,7 @@ export function Services() {
         }
       });
 
-      // LÓGICA DEL EFECTO STACKING CON PIN - Igual a kota.co.uk
+      // LÓGICA DEL EFECTO STACKING CON PIN - Solo en pantallas XL
       cardsRef.current.forEach((card, index) => {
         if (!card) return;
         const nextCard = cardsRef.current[index + 1];
@@ -44,8 +44,8 @@ export function Services() {
         // Si el contenido es más alto que la pantalla, damos más tiempo para ver todo
         const scrollDistance = Math.max(cardHeight, screenHeight);
         
-        // Pin solo si existe una tarjeta siguiente Y no es móvil
-        if (nextCard && !isMobile) {
+        // Pin solo si existe una tarjeta siguiente Y es pantalla XL
+        if (nextCard && !isSmallScreen) {
           gsap.to(card, {
             scrollTrigger: {
               trigger: card,
@@ -60,8 +60,8 @@ export function Services() {
 
         if (!nextCard) return;
 
-        // Transformación solo en pantallas grandes
-        if (isMobile) return;
+        // Transformación solo en pantallas XL
+        if (isSmallScreen) return;
 
         // Transformación de la tarjeta actual cuando la siguiente entra
         gsap.to(card, {
